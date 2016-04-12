@@ -4,46 +4,36 @@ import turtle
 import httplib
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
 
-capture  = cv2.VideoCapture(0)
-
-#conn = httplib.HTTPConnection("192.168.1.33:81")
+capture  = cv2.VideoCapture(0)#create capture object 
 while True:
     ret,image  = capture.read()
 
     if image is None:
         continue
-    gray  = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    gray  = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)#convert to gray scale
     
-    faces  = face_cascade.detectMultiScale(
+    faces  = face_cascade.detectMultiScale(#get faces
               gray,
               scaleFactor = 1.1,
               minNeighbors = 5,
               minSize  = (30,30),
               flags  = cv2.cv.CV_HAAR_SCALE_IMAGE
               )
-    print len(faces)
-    if len(faces)==2:
+   
+    if len(faces)==2:#if two faces are detected
 	cord1,cord2 = faces[0],faces[1]
 	x,y,w,h = cord1
 	x2,y2,w2,h2 = cord2
-        print  cord2
-	cv2.rectangle(image ,(x2,y2),(x2+w2,y2+h2),(0,255,0),2)
+	#cv2.rectangle(image ,(x2,y2),(x2+w2,y2+h2),(0,255,0),2)
         face1  = image[y:y+h,x:x+w]
-        face2  = image[y2:y2+h2,x2:x2+w2]#]cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]]
-	print face1.shape,face2.shape        
+        face2  = image[y2:y2+h2,x2:x2+w2]#]cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]]    
 	face1 = cv2.resize(face1,(face2.shape[0],face2.shape[1]),interpolation = cv2.INTER_CUBIC)
 	face2 = cv2.resize(face2,(w,h),interpolation = cv2.INTER_CUBIC)
-	print face2.shape
 	image[cord2[1]:cord2[1]+cord2[3],cord2[0]:cord2[0]+cord2[2]] = face1
 	image[cord1[1]:cord1[1]+cord1[3],cord1[0]:cord1[0]+cord1[2]] = face2
-	print "#################################333"
-	print face1.shape#((cord2[0],cord2[0]+cord2[2]),(cord2[1],cord2[1]+cord2[3]))
 	cv2.imshow("face one",face1)
-	#cv2.imshow("face two",face2)	         	
+	cv2.imshow("face two",face2)	         	
     cv2.imshow("face tracking ...........",image)
-    
-
-
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
