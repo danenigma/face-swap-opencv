@@ -23,17 +23,19 @@ while True:
               )
     print len(faces)
     if len(faces)==1:
-	cord1,cord2 = faces[0],faces[1]
+	cord1 = faces[0]
+	x,y,w,h = cord1
+	cv2.rectangle(image ,(x,y),(x+w,y+h),(0,255,0),2)
         face1  = image[cord1[0]:cord1[0]+cord1[2],cord1[1]:cord1[1]+cord1[3]]
-        face2  = image[cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]]
-	print face2.shape[0]        
-	face1 = cv2.resize(face1,(face2.shape[0],face2.shape[1]),interpolation = cv2.INTER_CUBIC)
-	face2 = cv2.resize(face2,(face1.shape[0],face1.shape[1]),interpolation = cv2.INTER_CUBIC)
-	image[cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]] = face1
-	image[cord1[0]:cord1[0]+cord1[2],cord1[1]:cord1[1]+cord1[3]] = face2
+        #face2  = image[cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]]
+	#print face2.shape[0]        
+	face1 = cv2.resize(face1,(face1.shape[1],face1.shape[0]),interpolation = cv2.INTER_CUBIC)
+	#face2 = cv2.resize(face2,(face1.shape[0],face1.shape[1]),interpolation = cv2.INTER_CUBIC)
+	image[cord1[0]:cord1[0]+cord1[2],cord1[1]:cord1[1]+cord1[3]] = face1
+	#image[cord1[0]:cord1[0]+cord1[2],cord1[1]:cord1[1]+cord1[3]] = face2
 	
 	cv2.imshow("face one",face1)
-	cv2.imshow("face two",face2)	         	
+	#cv2.imshow("face two",face2)	         	
     cv2.imshow("face tracking ...........",image)
     
 
