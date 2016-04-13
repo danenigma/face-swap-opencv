@@ -37,6 +37,11 @@ while True:
 	image[cord1[1]:cord1[1]+cord1[3],cord1[0]:cord1[0]+cord1[2]] = face2
 	cv2.imshow("face one",face1)
 	cv2.imshow("face two",face2)	         	
+    elif len(faces)==1:
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	cv2.putText(image,'Only one face detected',(10,50), font, 1,(255,0,0),2)
+    else:
+	cv2.putText(image,'no face detected',(10,50), font, 1,(0,0,255),2)
     cv2.imshow("face tracking ...........",image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
