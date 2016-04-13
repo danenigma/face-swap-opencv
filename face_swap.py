@@ -16,7 +16,6 @@ def get_faces(image):
               )
     return faces	
 
-
 capture  = cv2.VideoCapture(0)#create capture object 
 while True:
     ret,image  = capture.read()
@@ -29,10 +28,10 @@ while True:
 	cord1,cord2 = faces[0],faces[1]
 	x,y,w,h = cord1
 	x2,y2,w2,h2 = cord2
-	#cv2.rectangle(image ,(x2,y2),(x2+w2,y2+h2),(0,255,0),2)
+	cv2.rectangle(image ,(x2,y2),(x2+w2,y2+h2),(0,255,0),2)#uncomment this line to draw rectangles over the faces
         face1  = image[y:y+h,x:x+w]
-        face2  = image[y2:y2+h2,x2:x2+w2]#]cord2[0]:cord2[0]+cord2[2],cord2[1]:cord2[1]+cord2[3]]    
-	face1 = cv2.resize(face1,(face2.shape[0],face2.shape[1]),interpolation = cv2.INTER_CUBIC)
+        face2  = image[y2:y2+h2,x2:x2+w2]   
+	face1 = cv2.resize(face1,(w2,h2),interpolation = cv2.INTER_CUBIC)
 	face2 = cv2.resize(face2,(w,h),interpolation = cv2.INTER_CUBIC)
 	image[cord2[1]:cord2[1]+cord2[3],cord2[0]:cord2[0]+cord2[2]] = face1
 	image[cord1[1]:cord1[1]+cord1[3],cord1[0]:cord1[0]+cord1[2]] = face2
