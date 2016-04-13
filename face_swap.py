@@ -2,7 +2,20 @@ import cv2
 import sys
 import turtle
 import httplib
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+FACE_CASCADE = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+
+def get_faces(image):	
+    gray  = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)#convert to gray scale
+    
+    faces  = FACE_CASCADE.detectMultiScale(#get faces
+              gray,
+              scaleFactor = 1.1,
+              minNeighbors = 5,
+              minSize  = (30,30),
+              flags  = cv2.cv.CV_HAAR_SCALE_IMAGE
+              )
+    return faces	
+
 
 capture  = cv2.VideoCapture(0)#create capture object 
 while True:
@@ -10,16 +23,8 @@ while True:
 
     if image is None:
         continue
-    gray  = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)#convert to gray scale
-    
-    faces  = face_cascade.detectMultiScale(#get faces
-              gray,
-              scaleFactor = 1.1,
-              minNeighbors = 5,
-              minSize  = (30,30),
-              flags  = cv2.cv.CV_HAAR_SCALE_IMAGE
-              )
-   
+    faces = get_faces(image)
+    print len(faces)
     if len(faces)==2:#if two faces are detected
 	cord1,cord2 = faces[0],faces[1]
 	x,y,w,h = cord1
